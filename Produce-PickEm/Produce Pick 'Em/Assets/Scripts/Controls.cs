@@ -28,4 +28,9 @@ public class Controls : MonoBehaviour {
 			//open credits
 		}
 	}
+	void FixedUpdate()
+	{
+         Vector3 movement = new Vector3 (Input.acceleration.x, 0.0f, 0.0f);
+         gameObject.GetComponent<Rigidbody2D>().velocity = movement * speed*7.5f;
+     }
 }
