@@ -10,6 +10,14 @@ public class PlayerCollector : MonoBehaviour {
 	public GameObject heart2;
 	public GameObject heart3;
 	public TextMeshProUGUI scoreText;
+	public GameObject mainCanvas;
+	public GameObject endCanvas;
+	public GameObject itemDropper;
+	public TextMeshProUGUI finalScoreText;
+	public AudioSource source;
+	public AudioClip goodSound;
+	public AudioClip heartSound;
+	public AudioClip badSound;
 	public void Start()
 	{
 		score = 0;
@@ -25,14 +33,23 @@ public class PlayerCollector : MonoBehaviour {
 			if(col.gameObject.GetComponent<ItemInfo>().isHealthy)
 			{
 				score += col.gameObject.GetComponent<ItemInfo>().scoreValue;
-
+				
 				if(col.gameObject.GetComponent<ItemInfo>().itemName == "Heart")
 				{
+					source.clip = heartSound;
+					source.Play();
 					CheckHearts(true);
+				}
+				else
+				{
+					source.clip = goodSound;
+					source.Play();
 				}
 			}
 			else
 			{
+				source.clip = badSound;
+				source.Play();
 				score += col.gameObject.GetComponent<ItemInfo>().scoreValue;
 				CheckHearts(false);
 			}
@@ -97,7 +114,11 @@ public class PlayerCollector : MonoBehaviour {
 
 	public void EndGame()
 	{
+		endCanvas.SetActive(true);
+		mainCanvas.SetActive(false);
+		Destroy(itemDropper);
 
+		finalScoreText.text = "FINAL SCORE: "+ score;
 	}
 
 	
